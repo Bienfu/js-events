@@ -19,6 +19,7 @@ function generateWordElement(word, highlight) {
   wordElement.textContent = word;
   if (highlight) {
     wordElement.classList.add('highlight');
+    wordElement.classList.add(highlight);
   }
   return wordElement;
 }
@@ -54,6 +55,9 @@ function handleAddWordButtonClick(event) {
   if (word) {
     var everyNth = getEveryNthValue();
     var highlight = ((currentWord + 1) % everyNth) === 0;
+    if (highlight) {
+      highlight = getHighlightColor();
+    }
 
     var wordElement = generateWordElement(word, highlight);
     var container = event.currentTarget.parentNode.parentNode;
@@ -68,3 +72,9 @@ var addWordButtons = document.getElementsByClassName('add-word-button');
 for (var i = 0; i < addWordButtons.length; i++) {
   addWordButtons[i].addEventListener('click', handleAddWordButtonClick);
 }
+
+document.body.addEventListener('click', function (event) {
+  if (event.target.classList.contains('word')) {
+    event.target.remove();
+  }
+});
